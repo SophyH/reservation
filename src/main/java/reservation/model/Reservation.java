@@ -1,7 +1,6 @@
 package reservation.model;
 
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -52,8 +50,9 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "id_passager_reservation", foreignKey = @ForeignKey(name = "id_passager_reservation_fk"))
 	private Passager passager;
-	@OneToMany(mappedBy = "reservation")
-	private Set<Vol> vols;
+	@ManyToOne
+	@JoinColumn(name = "id_vol_reservation", foreignKey = @ForeignKey(name = "id_vol_reservation_fk"))
+	private Vol vols;
 	@ManyToOne
 	@JoinColumn(name = "id_client_passager", foreignKey = @ForeignKey(name = "id_client_passager_fk"))
 	private Client client;
@@ -101,11 +100,11 @@ public class Reservation {
 		this.passager = passagers;
 	}
 
-	public Set<Vol> getVols() {
+	public Vol getVols() {
 		return vols;
 	}
 
-	public void setVols(Set<Vol> vols) {
+	public void setVols(Vol vols) {
 		this.vols = vols;
 	}
 

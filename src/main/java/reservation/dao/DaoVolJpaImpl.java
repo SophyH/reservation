@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import reservation.model.CompagnieAerienneVol;
+import reservation.model.Reservation;
 import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
@@ -72,7 +73,9 @@ public class DaoVolJpaImpl implements DaoVol {
 			for (CompagnieAerienneVol cav : v.getCompagnieAerienneVol()) {
 				cav.getKey().setVol(null);
 			}
-			v.setReservation(null);
+			for (Reservation r : v.getReservation()) {
+				r.setVols(null);
+			}
 			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {
@@ -101,7 +104,9 @@ public class DaoVolJpaImpl implements DaoVol {
 			for (CompagnieAerienneVol cav : v.getCompagnieAerienneVol()) {
 				cav.getKey().setVol(null);
 			}
-			v.setReservation(null);
+			for (Reservation r : v.getReservation()) {
+				r.setVols(null);
+			}
 			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {

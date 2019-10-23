@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import reservation.model.Reservation;
-import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
 class DaoReservationJpaImpl implements DaoReservation {
@@ -66,9 +65,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 			tx = em.getTransaction();
 			tx.begin();
 			Reservation r = em.merge(obj);
-			for (Vol v : r.getVols()) {
-				v.setReservation(null);
-			}
+			r.getVols().setReservation(null);
 			r.getPassagers().setReservation(null);
 			r.getClient().setReservations(null);
 			em.remove(r);
@@ -94,9 +91,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 			tx.begin();
 			Reservation r = em.find(Reservation.class, key);
 			r.getPassagers().setReservation(null);
-			for (Vol v : r.getVols()) {
-				v.setReservation(null);
-			}
+			r.getVols().setReservation(null);
 			r.getClient().setReservations(null);
 			em.remove(r);
 			tx.commit();
