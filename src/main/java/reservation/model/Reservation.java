@@ -18,7 +18,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
@@ -53,8 +52,7 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "id_passager_reservation", foreignKey = @ForeignKey(name = "id_passager_reservation_fk"))
 	private Passager passager;
-	@Transient
-	@OneToMany(mappedBy = "")
+	@OneToMany(mappedBy = "reservation")
 	private Set<Vol> vols;
 	@ManyToOne
 	@JoinColumn(name = "id_client_passager", foreignKey = @ForeignKey(name = "id_client_passager_fk"))

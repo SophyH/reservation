@@ -7,7 +7,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import reservation.model.Passager;
 import reservation.model.Reservation;
 import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
@@ -94,9 +93,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 			tx = em.getTransaction();
 			tx.begin();
 			Reservation r = em.find(Reservation.class, key);
-			for (Passager p : r.getPassagers()) {
-				p.setReservation(null);
-			}
+			r.getPassagers().setReservation(null);
 			for (Vol v : r.getVols()) {
 				v.setReservation(null);
 			}
