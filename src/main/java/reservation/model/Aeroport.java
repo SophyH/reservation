@@ -39,10 +39,10 @@ public class Aeroport {
 	private String nomAeroport;
 	
 	
-	@OneToMany(mappedBy="aeroport")
+	@OneToMany(mappedBy="aeroportArrivee")
 	private Set<Vol> volArrivee;
 	
-	@OneToMany(mappedBy="aeroport")
+	@OneToMany(mappedBy="aeroportDepart")
 	private Set<Vol> volDepart;
 	
 	@OneToMany(mappedBy="key.aeroport")
