@@ -64,6 +64,11 @@ public class Reservation {
 
 	}
 
+	public Reservation(Client client) {
+		super();
+		this.client = client;
+	}
+
 	public Long getIdReservation() {
 		return idReservation;
 	}
