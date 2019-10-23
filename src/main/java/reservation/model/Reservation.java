@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -20,18 +21,18 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "reservation")
 @SequenceGenerator(name = "seqReservation", sequenceName = "seq_reservation", initialValue = 100, allocationSize = 1)
-@NamedQueries({
-		@NamedQuery(name = "Reservation.findByKeyWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
-				+ "where r.idReservation=:key"),
-		@NamedQuery(name = "Reservation.findAllWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation"),
-		@NamedQuery(name = "Reservation.findByKeyWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
-				+ "left join fetch v.escales where r.idReservation=:key"),
-		@NamedQuery(name = "Reservation.findAllWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
-				+ "left join fetch v.escales "),
-		@NamedQuery(name = "Reservation.findByKeyWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
-				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales where r.idReservation=:key"),
-		@NamedQuery(name = "Reservation.findAllWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
-				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales") })
+//@NamedQueries({
+//		@NamedQuery(name = "Reservation.findByKeyWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
+//				+ "where r.idReservation=:key"),
+//		@NamedQuery(name = "Reservation.findAllWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation"),
+//		@NamedQuery(name = "Reservation.findByKeyWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
+//				+ "left join fetch v.escales where r.idReservation=:key"),
+//		@NamedQuery(name = "Reservation.findAllWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
+//				+ "left join fetch v.escales "),
+//		@NamedQuery(name = "Reservation.findByKeyWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
+//				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales where r.idReservation=:key"),
+//		@NamedQuery(name = "Reservation.findAllWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
+//				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales") })
 public class Reservation {
 
 	@Id
@@ -45,10 +46,10 @@ public class Reservation {
 	private Integer numeroReservation;
 	@OneToMany(mappedBy = "reservation")
 	private Set<Passager> passagers;
-	@OneToMany(mappedBy = "")
-	private Set<Vol> vols;
-//	@Transient
-//	private Client client;
+//	@OneToMany(mappedBy = "")
+//	private Set<Vol> vols;
+	@ManyToOne
+	private Client client;
 	@Version
 	private int version;
 
@@ -88,13 +89,13 @@ public class Reservation {
 		this.passagers = passagers;
 	}
 
-	public Set<Vol> getVols() {
-		return vols;
-	}
-
-	public void setVols(Set<Vol> vols) {
-		this.vols = vols;
-	}
+//	public Set<Vol> getVols() {
+//		return vols;
+//	}
+//
+//	public void setVols(Set<Vol> vols) {
+//		this.vols = vols;
+//	}
 
 	public int getVersion() {
 		return version;
@@ -104,13 +105,13 @@ public class Reservation {
 		this.version = version;
 	}
 
-//	public Client getClient() {
-//		return client;
-//	}
-//
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 	@Override
 	public int hashCode() {

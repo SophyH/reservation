@@ -18,6 +18,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -26,6 +28,7 @@ import reservation.model.Adresse;
 
 @Entity
 @Table(name="client")
+@SequenceGenerator(name= "seqClient", sequenceName="seq_client", initialValue =100, allocationSize =1)  
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type_client", discriminatorType = DiscriminatorType.STRING, length=2)
 @NamedQueries({
@@ -47,15 +50,16 @@ public abstract class Client {
 	
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="numero", column = @Column(name="numero_rue_client")),
-		@AttributeOverride(name="rue", column = @Column(name="rue_client", length=255)),
-		@AttributeOverride(name="code_postal", column = @Column(name="code_postal_client", length=5)),
+		@AttributeOverride(name="adresse", column = @Column(name="adresse_client")),
+		@AttributeOverride(name="codePostal", column = @Column(name="code_postal_client", length=5)),
 		@AttributeOverride(name="ville", column= @Column(name="ville_client", length = 200)),
+		@AttributeOverride(name="pays", column = @Column(name="pays_client", length=255)),
+
 	})  
 	private Adresse adresse;
 	
-//	@OneToMany(mappedBy  ="")
-//	private Set<Reservation> reservations;
+	@OneToMany(mappedBy ="client")
+	private Set<Reservation> reservations;
 	
 	@Version 
 	private int version; 
@@ -186,15 +190,15 @@ public abstract class Client {
 
 
 	
-//	public Set<Reservation> getReservations() {
-//		return reservations;
-//	}
-//
-//
-//
-//	public void setReservations(Set<Reservation> reservations) {
-//		this.reservations = reservations;
-//	}
+	public Set<Reservation> getReservations() {
+		return reservations;
+	}
+
+
+
+	public void setReservations(Set<Reservation> reservations) {
+		this.reservations = reservations;
+	}
 
 
 
