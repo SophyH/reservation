@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -18,6 +20,9 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "passager")
 @SequenceGenerator(name = "seqPassager", sequenceName = "seq_passager", initialValue = 100, allocationSize = 1)
+@NamedQueries({
+		@NamedQuery(name = "Passager.findByKeyWithReservation", query = "select p from Passager p left join fetch p.reservation where p.idPassager = :key"),
+		@NamedQuery(name = "Passager.findAllWithReservation", query = "select p from Passager p left join fetch p.reservation") })
 public class Passager {
 
 	@Id

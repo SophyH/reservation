@@ -7,13 +7,14 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import reservation.model.Passager;
+import reservation.model.CompagnieAerienne;
+import reservation.model.CompagnieAerienneVol;
 import reservation.util.EntityManagerFactorySingleton;
 
-public class DaoPassagerJpaImpl implements DaoPassager {
+public class DaoCompagnieAerienneJpaImpl implements DaoCompagnieAerienne {
 
 	@Override
-	public void insert(Passager obj) {
+	public void insert(CompagnieAerienne obj) {
 		EntityManager em = null;
 		em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
@@ -35,14 +36,14 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 	}
 
 	@Override
-	public Passager update(Passager obj) {
-		Passager p = null;
+	public CompagnieAerienne update(CompagnieAerienne obj) {
+		CompagnieAerienne ca = null;
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			p = em.merge(obj);
+			ca = em.merge(obj);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,17 +55,21 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 				em.close();
 			}
 		}
-		return p;
+		return ca;
 	}
 
 	@Override
-	public void delete(Passager obj) {
+	public void delete(CompagnieAerienne obj) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.merge(obj));
+			CompagnieAerienne ca = em.merge(obj);
+			for (CompagnieAerienneVol cav : ca.getCompagnieAerienneVol()) {
+				cav.getKey().setCompagnieAerienne(null);
+			}
+			em.remove(ca);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,7 +90,11 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.find(Passager.class, key));
+			CompagnieAerienne ca = em.find(CompagnieAerienne.class, key);
+			for (CompagnieAerienneVol cav : ca.getCompagnieAerienneVol()) {
+				cav.getKey().setCompagnieAerienne(null);
+			}
+			em.remove(ca);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,47 +109,47 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 	}
 
 	@Override
-	public Passager findByKey(Long key) {
+	public CompagnieAerienne findByKey(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		Passager p = null;
-		p = em.find(Passager.class, key);
+		CompagnieAerienne ca = null;
+		ca = em.find(CompagnieAerienne.class, key);
 		em.close();
-		return p;
+		return ca;
 	}
 
 	@Override
-	public List<Passager> findAll() {
+	public List<CompagnieAerienne> findAll() {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		List<Passager> passagers = null;
-		Query query = em.createQuery("from Passager p");
-		passagers = query.getResultList();
+		List<CompagnieAerienne> compagnieAeriennes = null;
+		Query query = em.createQuery("from CompagnieAerienne ca");
+		compagnieAeriennes = query.getResultList();
 		em.close();
-		return passagers;
+		return compagnieAeriennes;
 	}
 
 	@Override
-	public Passager findByKeyWithReservation(Long key) {
+	public CompagnieAerienne findByKeyWithCompagniesVols(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		Passager p = null;
+		CompagnieAerienne ca = null;
 		Query query = em.createNamedQuery("CompagnieAerienne.findByKeyWithCompagniesVols");
 		query.setParameter("key", key);
 		try {
-			p = (Passager) query.getSingleResult();
+			ca = (CompagnieAerienne) query.getSingleResult();
 		} catch (NoResultException e) {
 
 		}
 		em.close();
-		return p;
+		return ca;
 	}
 
 	@Override
-	public List<Passager> findAllWithReservation() {
+	public List<CompagnieAerienne> findAllWithCompagniesVols(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-		List<Passager> passagers = null;
-		Query query = em.createNamedQuery("Passager.findAllWithReservation");
-		passagers = query.getResultList();
+		List<CompagnieAerienne> compagnieAeriennes = null;
+		Query query = em.createNamedQuery("CompagnieAerienne.findAllWithCompagniesVols");
+		compagnieAeriennes = query.getResultList();
 		em.close();
-		return passagers;
+		return compagnieAeriennes;
 	}
 
 }

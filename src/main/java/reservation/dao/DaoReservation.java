@@ -18,4 +18,8 @@ public interface DaoReservation extends DaoGeneric<Reservation, Long> {
 
 	List<Reservation> findAllWithVolsAndPassagers();
 
+	Reservation findByKeyWithClient(Long key);
+
+	List<Reservation> findAllWithClient();
+
 }
