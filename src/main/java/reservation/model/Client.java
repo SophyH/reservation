@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -64,8 +65,30 @@ public abstract class Client {
 	@Version 
 	private int version; 
 	
+	@OneToOne
+	@JoinColumn(name = "login_id_client", foreignKey = @ForeignKey(name="login_id_client_fk"))
+	private Login login;
+	
+	
+	
 	public Client() {
 		
+	}
+
+
+
+	public Client(Long id, String nom, String numeroTel, String numeroFax, String email, Adresse adresse,
+			Set<Reservation> reservations, int version, Login login) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.numeroTel = numeroTel;
+		this.numeroFax = numeroFax;
+		this.email = email;
+		this.adresse = adresse;
+		this.reservations = reservations;
+		this.version = version;
+		this.login = login;
 	}
 
 
@@ -198,6 +221,18 @@ public abstract class Client {
 
 	public void setReservations(Set<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+
+
+	public Login getLogin() {
+		return login;
+	}
+
+
+
+	public void setLogin(Login login) {
+		this.login = login;
 	}
 
 

@@ -11,6 +11,7 @@ import reservation.model.Client;
 import reservation.model.ClientEI;
 import reservation.model.ClientMoral;
 import reservation.model.ClientPhysique;
+import reservation.model.Reservation;
 import reservation.util.EntityManagerFactorySingleton;
 
 class DaoClientJpaImpl implements DaoClient {
@@ -68,59 +69,38 @@ class DaoClientJpaImpl implements DaoClient {
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.merge(obj));
+			Client c = em.merge(obj);
+			for (Reservation r: c.getReservations()) { 
+					r.setClient(null);
+				}
+			em.remove(c);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			if (em != null && em.isOpen()) {
+			if(tx !=null && tx.isActive()) {
+				tx.rollback(); 		
+				}
+		}finally{
+			if (em !=null && em.isOpen()) {
 				em.close();
 			}
-		}
+		}		
 	}
 	
-	
-	
-//	public void delete(Client obj) {
-//		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-//		EntityTransaction tx = null;
-//		try {
-//			tx = em.getTransaction();
-//			tx.begin();
-//			Client c = em.merge(obj);
-//			for (Reservation r: c.getRervations()) { 
-//					r.setClient(null);
-//				}
-//			em.remove(s);
-//			tx.commit();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			if(tx !=null && tx.isActive()) {
-//				tx.rollback(); 		
-//				}
-//		}finally{
-//			if (em !=null && em.isOpen()) {
-//				em.close();
-//			}
-//		}		
-//	}
-//	
-	
-	
-	
-	
+
 
 	@Override
-	public void deleteByKey(Long key) {
+	public void deleteByKey(Long key) {	
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.find(Client.class, key));
+			Client c = em.find(Client.class, key);
+			for (Reservation r : c.getReservations()) { 
+				r.setClient(null);
+			}
+			em.remove(c);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,31 +113,6 @@ class DaoClientJpaImpl implements DaoClient {
 			}
 		}
 	}
-
-	
-//	public void deleteByKey(Integer key) {
-//		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
-//		EntityTransaction tx = null;
-//		try {
-//			tx = em.getTransaction();
-//			tx.begin();
-//			Client c = em.find(Client.class, key);
-//			for (Reservation r : c.getReservations()) { 
-//				r.setClient(null);
-//			}
-//			em.remove(s);
-//			tx.commit();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			if (tx != null && tx.isActive()) {
-//				tx.rollback();
-//			}
-//		} finally {
-//			if (em != null && em.isOpen()) {
-//				em.close();
-//			}
-//		}
-//	}
 
 	@Override
 	public Client findByKey(Long key) {
