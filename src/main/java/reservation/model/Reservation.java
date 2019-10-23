@@ -15,23 +15,26 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
 @Table(name = "reservation")
 @SequenceGenerator(name = "seqReservation", sequenceName = "seq_reservation", initialValue = 100, allocationSize = 1)
 @NamedQueries({
-		@NamedQuery(name = "Reservation.findByKeyWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
+		@NamedQuery(name = "Reservation.findByKeyWithPassagers", query = "select r from Reservation r left join fetch r.passagers p "
 				+ "where r.idReservation=:key"),
-		@NamedQuery(name = "Reservation.findAllWithPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation"),
+		@NamedQuery(name = "Reservation.findAllWithPassagers", query = "select r from Reservation r left join fetch r.passagers p "),
 		@NamedQuery(name = "Reservation.findByKeyWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
 				+ "left join fetch v.escales where r.idReservation=:key"),
 		@NamedQuery(name = "Reservation.findAllWithVols", query = "select r from Reservation r left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee "
 				+ "left join fetch v.escales "),
-		@NamedQuery(name = "Reservation.findByKeyWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
+		@NamedQuery(name = "Reservation.findByKeyWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p "
 				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales where r.idReservation=:key"),
-		@NamedQuery(name = "Reservation.findAllWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p left join fetch p.reservation "
-				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales") })
+		@NamedQuery(name = "Reservation.findAllWithVolsAndPassagers", query = "select r from Reservation r left join fetch r.passagers p "
+				+ "left join fetch r.vols v left join fetch v.aeroportDepart left join fetch v.aeroportArrivee left join fetch v.escales"),
+		@NamedQuery(name = "Reservation.findByKeyWithClient", query = "select r from Reservation r left join fetch r.client where r.idReservation = :key"),
+		@NamedQuery(name = "Reservation.findAllWithClient", query = "select r from Reservation r left join fetch r.client") })
 public class Reservation {
 
 	@Id
@@ -47,8 +50,8 @@ public class Reservation {
 	private Set<Passager> passagers;
 	@OneToMany(mappedBy = "")
 	private Set<Vol> vols;
-//	@Transient
-//	private Client client;
+	@Transient
+	private Client client;
 	@Version
 	private int version;
 

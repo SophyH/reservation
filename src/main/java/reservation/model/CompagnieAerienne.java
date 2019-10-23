@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -15,6 +17,11 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "compagnie_aerienne")
 @SequenceGenerator(name = "seqCompagnieA", sequenceName = "seq_compagnie_aerienne", initialValue = 100, allocationSize = 1)
+@NamedQueries({
+		@NamedQuery(name = "CompagnieAerienne.findByKeyWithCompagniesVols", query = "select c from CompagnieAerienne c left join fetch c.compagnieAerienneVol cv "
+				+ "left join fetch cv.key.vol where c.idCompagnieAerienne = :key"),
+		@NamedQuery(name = "CompagnieAerienne.findAllWithCompagniesVols", query = "select c from CompagnieAerienne c left join fetch c.compagnieAerienneVol cv "
+				+ "left join fetch cv.key.vol ") })
 public class CompagnieAerienne {
 
 	@Id
@@ -23,7 +30,7 @@ public class CompagnieAerienne {
 	private Long idCompagnieAerienne;
 	@Column(name = "nom_compagnie_aerienne", length = 150)
 	private String nomCompagnieAerienne;
-	@OneToMany(mappedBy = "")
+	@OneToMany(mappedBy = "key.compagnieAerienne")
 	private Set<CompagnieAerienneVol> compagnieAerienneVol;
 	@Version
 	private int version;
@@ -54,6 +61,14 @@ public class CompagnieAerienne {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public Set<CompagnieAerienneVol> getCompagnieAerienneVol() {
+		return compagnieAerienneVol;
+	}
+
+	public void setCompagnieAerienneVol(Set<CompagnieAerienneVol> compagnieAerienneVol) {
+		this.compagnieAerienneVol = compagnieAerienneVol;
 	}
 
 	@Override
