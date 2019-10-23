@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -27,6 +29,19 @@ import jpa.model.Enseignement;
 @Entity
 @Table(name = "vol")
 @SequenceGenerator(name = "seqVol", sequenceName = "seq_vol", initialValue = 100, allocationSize = 1)
+@NamedQueries({
+	@NamedQuery(name = "Vol.findByKeyWithReservation", query = "select v from Vol v left join fetch v.reservation r "
+			+ "where v.idVol=:key"),
+	@NamedQuery(name = "Vol.findAllWithReservation", query = "select v from Vol v left join fetch v.reservation r "),
+	@NamedQuery(name = "Vol.findByKeyWithEscale", query = "select v from Vol v left join fetch v.escales e "
+			+ "where v.idVol=:key"),
+	@NamedQuery(name = "Vol.findAllWithEscale", query = "select v from Vol v left join fetch v.escales e "),
+	@NamedQuery(name = "Vol.findByKeyWithCompagnie", query = "select v from Vol v left join fetch v.compagnieAerienneVol c left join fetch c.key.compagnieAerienne "
+			+ "where v.idVol=:key"),
+	@NamedQuery(name = "Vol.findAllWithCompagnie", query = "select v from Vol v left join fetch v.compagnieAerienneVol c left join fetch c.key.compagnieAerienne  "),
+	@NamedQuery(name = "Vol.findByKeyWithAeroport", query = "select v from Vol v left join fetch v.aeroportDepart ad left join fetch v.aeroportArrivee aa "
+			+ "where v.idVol=:key"),
+	@NamedQuery(name = "Vol.findAllWithAeroport", query = "select v from Vol v left join fetch v.aeroportDepart ad left join fetch v.aeroportArrivee aa ") })
 public class Vol {
 	
 	@Id
@@ -62,6 +77,13 @@ public class Vol {
 	
 	@OneToMany(mappedBy="key.vol")
 	Set<Escale> escales;
+	
+	@OneToMany(mappedBy="key.vol")
+	Set<CompagnieAerienneVol> compagnieAerienneVol;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_reservation_vol", foreignKey = @ForeignKey(name = "reservation_id_vol_fk"))
+	Reservation reservation;
 	
 	
 	
@@ -155,6 +177,60 @@ public class Vol {
 
 	public void setAeroportArrivee(Aeroport aeroportArrivee) {
 		this.aeroportArrivee = aeroportArrivee;
+	}
+	
+	
+
+
+
+	public Set<Escale> getEscales() {
+		return escales;
+	}
+
+
+
+	public void setEscales(Set<Escale> escales) {
+		this.escales = escales;
+	}
+
+
+
+	public int getVersion() {
+		return version;
+	}
+
+
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	
+	
+
+
+	public Set<CompagnieAerienneVol> getCompagnieAerienneVol() {
+		return compagnieAerienneVol;
+	}
+
+
+
+	public void setCompagnieAerienneVol(Set<CompagnieAerienneVol> compagnieAerienneVol) {
+		this.compagnieAerienneVol = compagnieAerienneVol;
+	}
+	
+	
+
+
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 
 
