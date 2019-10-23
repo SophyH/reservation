@@ -107,13 +107,13 @@ public class Reservation {
 		this.version = version;
 	}
 
-//	public Client getClient() {
-//		return client;
-//	}
-//
-//	public void setClient(Client client) {
-//		this.client = client;
-//	}
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
 
 	@Override
 	public int hashCode() {
