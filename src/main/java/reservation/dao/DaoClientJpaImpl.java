@@ -11,6 +11,7 @@ import reservation.model.Client;
 import reservation.model.ClientEI;
 import reservation.model.ClientMoral;
 import reservation.model.ClientPhysique;
+import reservation.model.Login;
 import reservation.model.Reservation;
 import reservation.util.EntityManagerFactorySingleton;
 
@@ -73,6 +74,7 @@ class DaoClientJpaImpl implements DaoClient {
 			for (Reservation r: c.getReservations()) { 
 					r.setClient(null);
 				}
+			c.setLogin(null);
 			em.remove(c);
 			tx.commit();
 		} catch (Exception e) {
@@ -100,6 +102,7 @@ class DaoClientJpaImpl implements DaoClient {
 			for (Reservation r : c.getReservations()) { 
 				r.setClient(null);
 			}
+			c.setLogin(null);
 			em.remove(c);
 			tx.commit();
 		} catch (Exception e) {
