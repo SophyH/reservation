@@ -6,8 +6,8 @@ import reservation.model.CompagnieAerienne;
 
 public interface DaoCompagnieAerienne extends DaoGeneric<CompagnieAerienne, Long> {
 
-	CompagnieAerienne findByKeyWithVols(Long key);
+	CompagnieAerienne findByKeyWithCompagniesVols(Long key);
 
-	List<CompagnieAerienne> findAllWithVols(Long key);
+	List<CompagnieAerienne> findAllWithCompagniesVols(Long key);
 
 }

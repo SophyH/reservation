@@ -209,4 +209,29 @@ class DaoReservationJpaImpl implements DaoReservation {
 		return reservations;
 	}
 
+	@Override
+	public Reservation findByKeyWithClient(Long key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Reservation r = null;
+		Query query = em.createNamedQuery("Reservation.findByKeyWithVolsAndPassagers");
+		query.setParameter("key", key);
+		try {
+			r = (Reservation) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return r;
+	}
+
+	@Override
+	public List<Reservation> findAllWithClient() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Reservation> reservations = null;
+		Query query = em.createNamedQuery("Reservation.findAllWithClient");
+		reservations = query.getResultList();
+		em.close();
+		return reservations;
+	}
+
 }
