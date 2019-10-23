@@ -131,7 +131,7 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 	public Passager findByKeyWithReservation(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Passager p = null;
-		Query query = em.createNamedQuery("CompagnieAerienne.findByKeyWithCompagniesVols");
+		Query query = em.createNamedQuery("Passager.findByKeyWithReservation");
 		query.setParameter("key", key);
 		try {
 			p = (Passager) query.getSingleResult();

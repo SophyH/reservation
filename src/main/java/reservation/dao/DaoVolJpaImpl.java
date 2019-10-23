@@ -1,22 +1,18 @@
 package reservation.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import reservation.model.Aeroport;
 import reservation.model.CompagnieAerienneVol;
-import reservation.model.Escale;
-import reservation.model.Reservation;
 import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
-public class DaoVolJpaImpl implements DaoVol{
-	
+public class DaoVolJpaImpl implements DaoVol {
+
 	@Override
 	public void insert(Vol obj) {
 		EntityManager em = null;
@@ -73,10 +69,10 @@ public class DaoVolJpaImpl implements DaoVol{
 			v.getAeroportArrivee().setVolArrivee(null);
 			v.getAeroportDepart().setVolDepart(null);
 			v.setEscales(null);
-			for(CompagnieAerienneVol cav: v.getCompagnieAerienneVol()) {
+			for (CompagnieAerienneVol cav : v.getCompagnieAerienneVol()) {
 				cav.getKey().setVol(null);
 			}
-			v.setReservation(null);			
+			v.setReservation(null);
 			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {
@@ -92,7 +88,7 @@ public class DaoVolJpaImpl implements DaoVol{
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
+	public void deleteByKey(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
 		try {
@@ -102,10 +98,10 @@ public class DaoVolJpaImpl implements DaoVol{
 			v.getAeroportArrivee().setVolArrivee(null);
 			v.getAeroportDepart().setVolDepart(null);
 			v.setEscales(null);
-			for(CompagnieAerienneVol cav: v.getCompagnieAerienneVol()) {
+			for (CompagnieAerienneVol cav : v.getCompagnieAerienneVol()) {
 				cav.getKey().setVol(null);
 			}
-			v.setReservation(null);			
+			v.setReservation(null);
 			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {
@@ -122,7 +118,7 @@ public class DaoVolJpaImpl implements DaoVol{
 	}
 
 	@Override
-	public Vol findByKey(Integer key) {
+	public Vol findByKey(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Vol s = null;
 		s = em.find(Vol.class, key);
@@ -139,8 +135,8 @@ public class DaoVolJpaImpl implements DaoVol{
 		em.close();
 		return vols;
 	}
-	
-	public Vol findByKeyWithReservation(Integer key) {
+
+	public Vol findByKeyWithReservation(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Vol v = null;
 		Query query = em.createNamedQuery("Vol.findByKeyWithReservation");
@@ -165,7 +161,7 @@ public class DaoVolJpaImpl implements DaoVol{
 	}
 
 	@Override
-	public Vol findByKeyWithEscale(Integer key) {
+	public Vol findByKeyWithEscale(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Vol v = null;
 		Query query = em.createNamedQuery("Vol.findByKeyWithEscale");
@@ -190,7 +186,7 @@ public class DaoVolJpaImpl implements DaoVol{
 	}
 
 	@Override
-	public Vol findByKeyWithCompagnie(Integer key) {
+	public Vol findByKeyWithCompagnie(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Vol v = null;
 		Query query = em.createNamedQuery("Vol.findByKeyWithCompagnie");
@@ -215,7 +211,7 @@ public class DaoVolJpaImpl implements DaoVol{
 	}
 
 	@Override
-	public Vol findByKeyWithAeroport(Integer key) {
+	public Vol findByKeyWithAeroport(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Vol v = null;
 		Query query = em.createNamedQuery("Vol.findByKeyWithAeroport");
@@ -238,9 +234,5 @@ public class DaoVolJpaImpl implements DaoVol{
 		em.close();
 		return vols;
 	}
-	
-	
-	
-	
 
 }

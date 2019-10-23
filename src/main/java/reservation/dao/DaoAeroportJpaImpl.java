@@ -8,13 +8,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import reservation.model.Aeroport;
-import reservation.model.CompagnieAerienneVol;
 import reservation.model.Escale;
 import reservation.model.Liaisons;
 import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
-public class DaoAeroportJpaImpl implements DaoAeroport{
+public class DaoAeroportJpaImpl implements DaoAeroport {
 
 	@Override
 	public void insert(Aeroport obj) {
@@ -36,7 +35,7 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 				em.close();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -70,20 +69,20 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 			tx = em.getTransaction();
 			tx.begin();
 			Aeroport a = em.merge(obj);
-			for(Vol v: a.getVolArrivee()) {
+			for (Vol v : a.getVolArrivee()) {
 				v.setAeroportArrivee(null);
 			}
-			for(Vol v: a.getVolDepart()) {
+			for (Vol v : a.getVolDepart()) {
 				v.setAeroportDepart(null);
 			}
-			
-			for(Liaisons l: a.getLiaisons()) {
+
+			for (Liaisons l : a.getLiaisons()) {
 				l.getKey().setAeroport(null);
 			}
-			
-			for(Escale e: a.getEscales()) {
+
+			for (Escale e : a.getEscales()) {
 				e.getKey().setAeroport(null);
-			}	
+			}
 			em.remove(a);
 			tx.commit();
 		} catch (Exception e) {
@@ -96,31 +95,31 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 				em.close();
 			}
 		}
-		
+
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
+	public void deleteByKey(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		EntityTransaction tx = null;
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			Aeroport a = em.find(Aeroport.class,key);
-			for(Vol v: a.getVolArrivee()) {
+			Aeroport a = em.find(Aeroport.class, key);
+			for (Vol v : a.getVolArrivee()) {
 				v.setAeroportArrivee(null);
 			}
-			for(Vol v: a.getVolDepart()) {
+			for (Vol v : a.getVolDepart()) {
 				v.setAeroportDepart(null);
 			}
-			
-			for(Liaisons l: a.getLiaisons()) {
+
+			for (Liaisons l : a.getLiaisons()) {
 				l.getKey().setAeroport(null);
 			}
-			
-			for(Escale e: a.getEscales()) {
+
+			for (Escale e : a.getEscales()) {
 				e.getKey().setAeroport(null);
-			}	
+			}
 			em.remove(a);
 			tx.commit();
 		} catch (Exception e) {
@@ -136,7 +135,7 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 	}
 
 	@Override
-	public Aeroport findByKey(Integer key) {
+	public Aeroport findByKey(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Aeroport s = null;
 		s = em.find(Aeroport.class, key);
@@ -155,7 +154,7 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 	}
 
 	@Override
-	public Aeroport findByKeyWithVille(Integer key) {
+	public Aeroport findByKeyWithVille(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Aeroport a = null;
 		Query query = em.createNamedQuery("Aeroport.findByKeyWithVille");
@@ -180,7 +179,7 @@ public class DaoAeroportJpaImpl implements DaoAeroport{
 	}
 
 	@Override
-	public Aeroport findByKeyWithEscale(Integer key) {
+	public Aeroport findByKeyWithEscale(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Aeroport a = null;
 		Query query = em.createNamedQuery("Aeroport.findByKeyWithEscale");

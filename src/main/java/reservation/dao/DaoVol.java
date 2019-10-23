@@ -4,22 +4,22 @@ import java.util.List;
 
 import reservation.model.Vol;
 
-public interface DaoVol extends DaoGeneric<Vol, Integer> {
-	
-	public Vol findByKeyWithReservation(Integer key) ;
-	
+public interface DaoVol extends DaoGeneric<Vol, Long> {
+
+	public Vol findByKeyWithReservation(Long key);
+
 	public List<Vol> findAllWithReservation();
-	
-	public Vol findByKeyWithEscale(Integer key) ;
-	
+
+	public Vol findByKeyWithEscale(Long key);
+
 	public List<Vol> findAllWithEscale();
-	
-	public Vol findByKeyWithCompagnie(Integer key) ;
-	
+
+	public Vol findByKeyWithCompagnie(Long key);
+
 	public List<Vol> findAllWithCompagnie();
-	
-	public Vol findByKeyWithAeroport(Integer key) ;
-	
+
+	public Vol findByKeyWithAeroport(Long key);
+
 	public List<Vol> findAllWithAeroport();
 
 }

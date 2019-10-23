@@ -210,7 +210,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 	public Reservation findByKeyWithClient(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Reservation r = null;
-		Query query = em.createNamedQuery("Reservation.findByKeyWithVolsAndPassagers");
+		Query query = em.createNamedQuery("Reservation.findByKeyWithClient");
 		query.setParameter("key", key);
 		try {
 			r = (Reservation) query.getSingleResult();
