@@ -1,6 +1,6 @@
 package reservation.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -43,7 +43,7 @@ public class Passager {
 	@Version
 	private int version;
 	@OneToMany(mappedBy = "passager")
-	private List<Reservation> reservation;
+	private Set<Reservation> reservation;
 
 	public Passager() {
 
@@ -89,11 +89,11 @@ public class Passager {
 		this.version = version;
 	}
 
-	public List<Reservation> getReservation() {
+	public Set<Reservation> getReservation() {
 		return reservation;
 	}
 
-	public void setReservation(List<Reservation> reservation) {
+	public void setReservation(Set<Reservation> reservation) {
 		this.reservation = reservation;
 	}
 

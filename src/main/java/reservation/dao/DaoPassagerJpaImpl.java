@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import reservation.model.Passager;
+import reservation.model.Reservation;
 import reservation.util.EntityManagerFactorySingleton;
 
 public class DaoPassagerJpaImpl implements DaoPassager {
@@ -64,7 +65,11 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.merge(obj));
+			Passager p = em.merge(obj);
+			for (Reservation r : p.getReservation()) {
+				r.setPassagers(null);
+			}
+			em.remove(p);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,7 +90,11 @@ public class DaoPassagerJpaImpl implements DaoPassager {
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			em.remove(em.find(Passager.class, key));
+			Passager p = em.find(Passager.class, key);
+			for (Reservation r : p.getReservation()) {
+				r.setPassagers(null);
+			}
+			em.remove(p);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

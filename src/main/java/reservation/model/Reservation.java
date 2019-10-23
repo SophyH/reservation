@@ -56,7 +56,8 @@ public class Reservation {
 	@Transient
 	@OneToMany(mappedBy = "")
 	private Set<Vol> vols;
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "id_client_passager", foreignKey = @ForeignKey(name = "id_client_passager_fk"))
 	private Client client;
 	@Version
 	private int version;

@@ -67,12 +67,10 @@ class DaoReservationJpaImpl implements DaoReservation {
 			tx = em.getTransaction();
 			tx.begin();
 			Reservation r = em.merge(obj);
-			for (Passager p : r.getPassagers()) {
-				p.setReservation(null);
-			}
 			for (Vol v : r.getVols()) {
 				v.setReservation(null);
 			}
+			r.getPassagers().setReservation(null);
 			r.getClient().setReservations(null);
 			em.remove(r);
 			tx.commit();
