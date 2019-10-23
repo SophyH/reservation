@@ -6,17 +6,17 @@ import reservation.model.Reservation;
 
 public interface DaoReservation extends DaoGeneric<Reservation, Long> {
 
-	Reservation findByKeyWithPassagers(Long key);
+	Reservation findByKeyWithPassager(Long key);
 
-	List<Reservation> findAllWithPassagers();
+	List<Reservation> findAllWithPassager();
 
 	Reservation findByKeyWithVols(Long key);
 
 	List<Reservation> findAllWithVols();
 
-	Reservation findByKeyWithVolsAndPassagers(Long key);
+	Reservation findByKeyWithVolsAndPassager(Long key);
 
-	List<Reservation> findAllWithVolsAndPassagers();
+	List<Reservation> findAllWithVolsAndPassager();
 
 	Reservation findByKeyWithClient(Long key);
 

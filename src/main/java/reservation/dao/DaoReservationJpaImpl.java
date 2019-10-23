@@ -73,6 +73,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 			for (Vol v : r.getVols()) {
 				v.setReservation(null);
 			}
+			r.getClient().setReservations(null);
 			em.remove(r);
 			tx.commit();
 		} catch (Exception e) {
@@ -101,6 +102,7 @@ class DaoReservationJpaImpl implements DaoReservation {
 			for (Vol v : r.getVols()) {
 				v.setReservation(null);
 			}
+			r.getClient().setReservations(null);
 			em.remove(r);
 			tx.commit();
 		} catch (Exception e) {
@@ -135,10 +137,10 @@ class DaoReservationJpaImpl implements DaoReservation {
 	}
 
 	@Override
-	public Reservation findByKeyWithPassagers(Long key) {
+	public Reservation findByKeyWithPassager(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Reservation r = null;
-		Query query = em.createNamedQuery("Reservation.findByKeyWithPassagers");
+		Query query = em.createNamedQuery("Reservation.findByKeyWithPassager");
 		query.setParameter("key", key);
 		try {
 			r = (Reservation) query.getSingleResult();
@@ -150,10 +152,10 @@ class DaoReservationJpaImpl implements DaoReservation {
 	}
 
 	@Override
-	public List<Reservation> findAllWithPassagers() {
+	public List<Reservation> findAllWithPassager() {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		List<Reservation> reservations = null;
-		Query query = em.createNamedQuery("Reservation.findAllWithPassagers");
+		Query query = em.createNamedQuery("Reservation.findAllWithPassager");
 		reservations = query.getResultList();
 		em.close();
 		return reservations;
@@ -185,10 +187,10 @@ class DaoReservationJpaImpl implements DaoReservation {
 	}
 
 	@Override
-	public Reservation findByKeyWithVolsAndPassagers(Long key) {
+	public Reservation findByKeyWithVolsAndPassager(Long key) {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		Reservation r = null;
-		Query query = em.createNamedQuery("Reservation.findByKeyWithVolsAndPassagers");
+		Query query = em.createNamedQuery("Reservation.findByKeyWithVolsAndPassager");
 		query.setParameter("key", key);
 		try {
 			r = (Reservation) query.getSingleResult();
@@ -200,10 +202,10 @@ class DaoReservationJpaImpl implements DaoReservation {
 	}
 
 	@Override
-	public List<Reservation> findAllWithVolsAndPassagers() {
+	public List<Reservation> findAllWithVolsAndPassager() {
 		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
 		List<Reservation> reservations = null;
-		Query query = em.createNamedQuery("Reservation.findAllWithVolsAndPassagers");
+		Query query = em.createNamedQuery("Reservation.findAllWithVolsAndPassager");
 		reservations = query.getResultList();
 		em.close();
 		return reservations;
