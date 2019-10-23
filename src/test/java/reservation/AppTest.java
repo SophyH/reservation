@@ -1,12 +1,11 @@
 package reservation;
 
+import reservation.dao.DaoClient;
+import reservation.dao.DaoClientFactory;
 import reservation.dao.DaoPassager;
 import reservation.dao.DaoPassagerFactory;
 import reservation.dao.DaoReservation;
 import reservation.dao.DaoReservationFactory;
-import reservation.model.ClientEI;
-import reservation.model.Passager;
-import reservation.model.Reservation;
 import reservation.util.EntityManagerFactorySingleton;
 
 public class AppTest {
@@ -14,16 +13,9 @@ public class AppTest {
 
 		DaoReservation daoReservation = DaoReservationFactory.getInstance();
 
-		Reservation r = new Reservation();
-		r.setClient(new ClientEI());
+		DaoClient daoClient = DaoClientFactory.getInstance();
 
 		DaoPassager daoPassager = DaoPassagerFactory.getInstance();
-
-		Passager p = new Passager();
-		p.setNomPassager("huk");
-		p.setPrenomPassager("sophie");
-
-		daoPassager.insert(p);
 
 		EntityManagerFactorySingleton.close();
 

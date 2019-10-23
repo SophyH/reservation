@@ -20,7 +20,7 @@
 			<!-- password -->
 			<property name="hibernate.connection.password" value="root"/>
 			<!-- gestion ordre LDD (gestion des tables) -->
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
 			<!-- dialecte hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
 			<property name="hibernate.show_sql" value="true"/>
