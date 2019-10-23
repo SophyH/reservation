@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import reservation.model.Passager;
 import reservation.model.Reservation;
+import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
 class DaoReservationJpaImpl implements DaoReservation {
@@ -68,9 +70,9 @@ class DaoReservationJpaImpl implements DaoReservation {
 			for (Passager p : r.getPassagers()) {
 				p.setReservation(null);
 			}
-//			for (Vol v : r.getVols()) {
-//				v.setReservation(null);
-//			}
+			for (Vol v : r.getVols()) {
+				v.setReservation(null);
+			}
 			em.remove(r);
 			tx.commit();
 		} catch (Exception e) {
@@ -96,9 +98,9 @@ class DaoReservationJpaImpl implements DaoReservation {
 			for (Passager p : r.getPassagers()) {
 				p.setReservation(null);
 			}
-//			for (Vol v : r.getVols()) {
-//				v.setReservation(null);
-//			}
+			for (Vol v : r.getVols()) {
+				v.setReservation(null);
+			}
 			em.remove(r);
 			tx.commit();
 		} catch (Exception e) {
@@ -133,39 +135,78 @@ class DaoReservationJpaImpl implements DaoReservation {
 	}
 
 	@Override
-	public DaoReservation findByKeyWithPassagers(Long key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation findByKeyWithPassagers(Long key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Reservation r = null;
+		Query query = em.createNamedQuery("Reservation.findByKeyWithPassagers");
+		query.setParameter("key", key);
+		try {
+			r = (Reservation) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return r;
 	}
 
 	@Override
-	public List<DaoReservation> findAllWithPassagers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Reservation> findAllWithPassagers() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Reservation> reservations = null;
+		Query query = em.createNamedQuery("Reservation.findAllWithPassagers");
+		reservations = query.getResultList();
+		em.close();
+		return reservations;
 	}
 
 	@Override
-	public DaoReservation findByKeyWithVols(Long key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation findByKeyWithVols(Long key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Reservation r = null;
+		Query query = em.createNamedQuery("Reservation.findByKeyWithVols");
+		query.setParameter("key", key);
+		try {
+			r = (Reservation) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return r;
 	}
 
 	@Override
-	public List<DaoReservation> findAllWithVols() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Reservation> findAllWithVols() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Reservation> reservations = null;
+		Query query = em.createNamedQuery("Reservation.findAllWithVols");
+		reservations = query.getResultList();
+		em.close();
+		return reservations;
 	}
 
 	@Override
-	public DaoReservation findByKeyWithVolsAndPassagers(Long key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation findByKeyWithVolsAndPassagers(Long key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Reservation r = null;
+		Query query = em.createNamedQuery("Reservation.findByKeyWithVolsAndPassagers");
+		query.setParameter("key", key);
+		try {
+			r = (Reservation) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return r;
 	}
 
 	@Override
-	public List<DaoReservation> findAllWithVolsAndPassagers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Reservation> findAllWithVolsAndPassagers() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Reservation> reservations = null;
+		Query query = em.createNamedQuery("Reservation.findAllWithVolsAndPassagers");
+		reservations = query.getResultList();
+		em.close();
+		return reservations;
 	}
 
 }

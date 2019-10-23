@@ -1,10 +1,13 @@
 package reservation.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -20,8 +23,8 @@ public class CompagnieAerienne {
 	private Long idCompagnieAerienne;
 	@Column(name = "nom_compagnie_aerienne", length = 150)
 	private String nomCompagnieAerienne;
-//	@Transient
-//	private Set<CompagnieAerienneVol> compagnieAerienneVol;
+	@OneToMany(mappedBy = "")
+	private Set<CompagnieAerienneVol> compagnieAerienneVol;
 	@Version
 	private int version;
 
