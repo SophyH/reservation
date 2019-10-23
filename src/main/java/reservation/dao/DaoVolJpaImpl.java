@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import jpa.model.Personne;
 import reservation.model.Aeroport;
 import reservation.model.CompagnieAerienneVol;
 import reservation.model.Escale;
