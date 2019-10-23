@@ -1,10 +1,13 @@
 package reservation.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,6 +24,9 @@ public class Ville {
 	
 	@Column(name = "nom_ville", length = 150, nullable = false)
 	private String nomVille;
+	
+	@OneToMany(mappedBy="key.ville")
+	Set<Liaisons> liaisons;
 	
 	
 
