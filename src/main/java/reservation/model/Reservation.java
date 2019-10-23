@@ -24,6 +24,7 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "reservation")
 @SequenceGenerator(name = "seqReservation", sequenceName = "seq_reservation", initialValue = 100, allocationSize = 1)
+
 @NamedQueries({
 		@NamedQuery(name = "Reservation.findByKeyWithPassager", query = "select r from Reservation r left join fetch r.passager p "
 				+ "where r.idReservation=:key"),
@@ -52,7 +53,8 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "id_passager_reservation", foreignKey = @ForeignKey(name = "id_passager_reservation_fk"))
 	private Passager passager;
-	@OneToMany(mappedBy = "reservation")
+	@Transient
+	@OneToMany(mappedBy = "")
 	private Set<Vol> vols;
 	@Transient
 	private Client client;
@@ -88,11 +90,11 @@ public class Reservation {
 	}
 
 	public Passager getPassagers() {
-		return passagers;
+		return passager;
 	}
 
 	public void setPassagers(Passager passagers) {
-		this.passagers = passagers;
+		this.passager = passagers;
 	}
 
 	public Set<Vol> getVols() {

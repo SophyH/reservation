@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -36,6 +37,11 @@ public class Aeroport {
 	
 	@OneToMany(mappedBy="key.aeroport")
 	Set<Escale> escales;
+	
+	@OneToMany(mappedBy="key.aeroport")
+	Set<Liaisons> liaisons;
+	
+	
 
 	public Aeroport() {
 		super();

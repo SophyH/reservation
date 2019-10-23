@@ -4,38 +4,29 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "compagnie_aerienne_vol")
-public class CompagnieAerienneVol {
-
+@Table(name = "liaisons")
+public class Liaisons {
+	
 	@EmbeddedId
-	private CompagnieAerienneVolPk key;
-	private String numero;
+	LiaisonsPk key;
 
-	public CompagnieAerienneVol() {
-
+	public Liaisons() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public CompagnieAerienneVol(CompagnieAerienneVolPk key, String numero) {
+	public Liaisons(LiaisonsPk key) {
+		super();
 		this.key = key;
-		this.numero = numero;
 	}
 
-	public CompagnieAerienneVolPk getKey() {
+	public LiaisonsPk getKey() {
 		return key;
 	}
 
-	public void setKey(CompagnieAerienneVolPk key) {
+	public void setKey(LiaisonsPk key) {
 		this.key = key;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
 	}
 
 	@Override
@@ -54,7 +45,7 @@ public class CompagnieAerienneVol {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CompagnieAerienneVol other = (CompagnieAerienneVol) obj;
+		Liaisons other = (Liaisons) obj;
 		if (key == null) {
 			if (other.key != null)
 				return false;
@@ -62,5 +53,10 @@ public class CompagnieAerienneVol {
 			return false;
 		return true;
 	}
+	
+	
+	
+	
+	
 
 }
