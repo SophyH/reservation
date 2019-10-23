@@ -68,11 +68,11 @@ public class Vol {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "aeroport_id_vol", foreignKey = @ForeignKey(name = "aeroport_depart_id_vol_fk"))
+	@JoinColumn(name = "aeroport_depart_id_vol", foreignKey = @ForeignKey(name = "aeroport_depart_id_vol_fk"))
 	private Aeroport aeroportDepart;
 	
 	@ManyToOne
-	@JoinColumn(name = "aeroport_id_vol", foreignKey = @ForeignKey(name = "aeroport_arrivee_id_vol_fk"))
+	@JoinColumn(name = "aeroport_arrivee_id_vol", foreignKey = @ForeignKey(name = "aeroport_arrivee_id_vol_fk"))
 	private Aeroport aeroportArrivee;
 	
 	@OneToMany(mappedBy="key.vol")
