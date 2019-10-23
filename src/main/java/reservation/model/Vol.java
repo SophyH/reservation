@@ -1,6 +1,7 @@
 package reservation.model;
 
 import java.util.Date;
+
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -21,7 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
-import jpa.model.Enseignement;
 
 
 @Entity
