@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -18,6 +20,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aeroport")
 @SequenceGenerator(name = "seqAeroport", sequenceName = "seq_aeroport", initialValue = 100, allocationSize = 1)
+@NamedQueries({
+	@NamedQuery(name = "Aeroport.findByKeyWithVille", query = "select a from Aeroport a left join fetch a.liaisons l left join fetch l.key.ville "
+			+ "where a.idAeroport=:key"),
+	@NamedQuery(name = "Aeroport.findAllWithVille", query = "select a from Aeroport a left join fetch a.liaisons l left join fetch l.key.ville "),
+	@NamedQuery(name = "Aeroport.findByKeyWithEscale", query = "select a from Aeroport a left join fetch a.escales e "
+			+ "where a.idAeroport=:key"),
+	@NamedQuery(name = "Aeroport.findAllWithEscale", query = "select a from Aeroport a left join fetch a.escales e")
+})
 public class Aeroport {
 	
 	@Id
@@ -78,6 +88,24 @@ public class Aeroport {
 
 	public void setVolDepart(Set<Vol> volDepart) {
 		this.volDepart = volDepart;
+	}
+	
+	
+
+	public Set<Escale> getEscales() {
+		return escales;
+	}
+
+	public void setEscales(Set<Escale> escales) {
+		this.escales = escales;
+	}
+
+	public Set<Liaisons> getLiaisons() {
+		return liaisons;
+	}
+
+	public void setLiaisons(Set<Liaisons> liaisons) {
+		this.liaisons = liaisons;
 	}
 
 	@Override

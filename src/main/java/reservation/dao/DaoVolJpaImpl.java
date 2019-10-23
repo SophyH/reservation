@@ -1,12 +1,18 @@
 package reservation.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import jpa.model.Personne;
 import reservation.model.Aeroport;
+import reservation.model.CompagnieAerienneVol;
+import reservation.model.Escale;
+import reservation.model.Reservation;
 import reservation.model.Vol;
 import reservation.util.EntityManagerFactorySingleton;
 
@@ -64,11 +70,15 @@ public class DaoVolJpaImpl implements DaoVol{
 		try {
 			tx = em.getTransaction();
 			tx.begin();
-			Vol s = em.merge(obj);
-			for (Personne p : s.getPersonnes()) {
-				p.setVol(null);
+			Vol v = em.merge(obj);
+			v.getAeroportArrivee().setVolArrivee(null);
+			v.getAeroportDepart().setVolDepart(null);
+			v.setEscales(null);
+			for(CompagnieAerienneVol cav: v.getCompagnieAerienneVol()) {
+				cav.getKey().setVol(null);
 			}
-			em.remove(s);
+			v.setReservation(null);			
+			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -90,9 +100,13 @@ public class DaoVolJpaImpl implements DaoVol{
 			tx = em.getTransaction();
 			tx.begin();
 			Vol v = em.find(Vol.class, key);
-			for (Aeroport a : v.getAeroportArrivee()) {
-				a.setVolArrivee(null);
+			v.getAeroportArrivee().setVolArrivee(null);
+			v.getAeroportDepart().setVolDepart(null);
+			v.setEscales(null);
+			for(CompagnieAerienneVol cav: v.getCompagnieAerienneVol()) {
+				cav.getKey().setVol(null);
 			}
+			v.setReservation(null);			
 			em.remove(v);
 			tx.commit();
 		} catch (Exception e) {
@@ -126,5 +140,108 @@ public class DaoVolJpaImpl implements DaoVol{
 		em.close();
 		return vols;
 	}
+	
+	public Vol findByKeyWithReservation(Integer key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Vol v = null;
+		Query query = em.createNamedQuery("Vol.findByKeyWithReservation");
+		query.setParameter("key", key);
+		try {
+			v = (Vol) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return v;
+	}
+
+	@Override
+	public List<Vol> findAllWithReservation() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Vol> vols = null;
+		Query query = em.createNamedQuery("Vol.findAllWithReservation");
+		vols = query.getResultList();
+		em.close();
+		return vols;
+	}
+
+	@Override
+	public Vol findByKeyWithEscale(Integer key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Vol v = null;
+		Query query = em.createNamedQuery("Vol.findByKeyWithEscale");
+		query.setParameter("key", key);
+		try {
+			v = (Vol) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return v;
+	}
+
+	@Override
+	public List<Vol> findAllWithEscale() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Vol> vols = null;
+		Query query = em.createNamedQuery("Vol.findAllWithEscale");
+		vols = query.getResultList();
+		em.close();
+		return vols;
+	}
+
+	@Override
+	public Vol findByKeyWithCompagnie(Integer key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Vol v = null;
+		Query query = em.createNamedQuery("Vol.findByKeyWithCompagnie");
+		query.setParameter("key", key);
+		try {
+			v = (Vol) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return v;
+	}
+
+	@Override
+	public List<Vol> findAllWithCompagnie() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Vol> vols = null;
+		Query query = em.createNamedQuery("Vol.findAllWithCompagnie");
+		vols = query.getResultList();
+		em.close();
+		return vols;
+	}
+
+	@Override
+	public Vol findByKeyWithAeroport(Integer key) {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		Vol v = null;
+		Query query = em.createNamedQuery("Vol.findByKeyWithAeroport");
+		query.setParameter("key", key);
+		try {
+			v = (Vol) query.getSingleResult();
+		} catch (NoResultException e) {
+
+		}
+		em.close();
+		return v;
+	}
+
+	@Override
+	public List<Vol> findAllWithAeroport() {
+		EntityManager em = EntityManagerFactorySingleton.getInstance().createEntityManager();
+		List<Vol> vols = null;
+		Query query = em.createNamedQuery("Vol.findAllWithAeroport");
+		vols = query.getResultList();
+		em.close();
+		return vols;
+	}
+	
+	
+	
+	
 
 }
